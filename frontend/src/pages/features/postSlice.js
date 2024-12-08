@@ -3,28 +3,28 @@ import axios from "axios";
 
 // add a post 
 export const addPost = createAsyncThunk('posts/addPost', async (newPost) => {
-    const response = await axios.post('http://localhost:3000/api/user/post', newPost)
+    const response = await axios.post('https://social-media-appbackend.vercel.app/api/user/post', newPost)
     return response.data
 })
 
 // get all the posts
 
 export const getAllPosts = createAsyncThunk('posts/getAllPosts', async () => {
-    const response = await axios.get('http://localhost:3000/api/posts')
+    const response = await axios.get('https://social-media-appbackend.vercel.app/api/posts')
     return response.data
 })
 
 // updated a post
 
 export const updatePost = createAsyncThunk('posts/updatePost', async ({postId, updatedData}) => {
-    const response = await axios.post(`http://localhost:3000/api/posts/edit/${postId}`, updatedData)
+    const response = await axios.post(`https://social-media-appbackend.vercel.app/api/posts/edit/${postId}`, updatedData)
     return response.data
 })
 
 // delete a post
 
 export const deletePost = createAsyncThunk('posts/deletePost', async (postId) => {
-    const response = await axios.delete(`http://localhost:3000/api/user/posts/${postId}`)
+    const response = await axios.delete(`https://social-media-appbackend.vercel.app/api/user/posts/${postId}`)
     return response.data
 })
 
