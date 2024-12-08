@@ -4,21 +4,21 @@ import axios from 'axios'
 // register user
 
 export const addUser = createAsyncThunk('users/addUser', async (newUser) => {
-    const response = await axios.post('http://localhost:3000/api/registerUser', newUser)
+    const response = await axios.post('https://social-media-appbackend.vercel.app/api/registerUser', newUser)
     return response.data
 })
 
 // fetch users
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
-    const response = await axios.get('http://localhost:3000/api/users')
+    const response = await axios.get('https://social-media-appbackend.vercel.app/api/users')
     return response.data
 })
 
 // update userData
 
 export const updateUserData = createAsyncThunk('users/updateUserData', async ({userId, userData}) => {
-    const response = await axios.post(`http://localhost:3000/api/user/updateData/${userId}`, userData)
+    const response = await axios.post(`https://social-media-appbackend.vercel.app/api/user/updateData/${userId}`, userData)
     return response.data
 })
 
