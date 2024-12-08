@@ -7,7 +7,6 @@ const Landing = () => {
   return (
     <div>
       <main>
-        {/* <h2>I am the landing page</h2> */}
         <div className='p-5 m-5 d-flex justify-content-center'>
             <div className='row '>
                 <div className='col-md-6 mt-4'>
@@ -40,7 +39,6 @@ const Landing = () => {
                 </div>
                 
                 <div className='col-md-6 mt-4'>
-                    {/* <img src='https://placehold.co/500x550' alt='landingPageImage' className='img-fluid' /> */}
                     <img src={landingImage} alt='landingPageImage' className='img-fluid' style={{maxWidth : '480px', maxHeight : '480px', borderRadius : '5px'}} />
                 </div>
             </div>

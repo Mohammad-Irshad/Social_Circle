@@ -7,11 +7,7 @@ const Sidebar = ({user}) => {
   return (
     <>
       <main className="d-flex flex-column min-vh-100">
-        <nav className="nav flex-column">       
-            {/* <NavLink className='nav-link text-black' to='/home'>
-            <FaHome size={20} color="red" /> Home </NavLink> */}
-            {/* <NavLink className='nav-link text-black' to='/explore'>
-            <FaCompass size={20} color="red" /> Explore</NavLink> */}
+        <nav className="nav flex-column">
             <NavLink 
                 className={({ isActive }) => isActive ? 'nav-link text-danger  fw-medium fst-italic' : 'nav-link text-black'} 
                 to='/home'>
@@ -46,7 +42,7 @@ const Sidebar = ({user}) => {
               <span className='fw-medium'>{user.fullName}</span>
               <p>@{user.userName}</p>
             </div>
-            <div className='col-md-2'>...</div>
+            {/* <div className='col-md-2'>...</div> */}
           </div>
         </div>  
       </main>

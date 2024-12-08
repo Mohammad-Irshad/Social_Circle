@@ -2,14 +2,11 @@ import React, { useState } from 'react'
 import { FaArrowAltCircleUp, FaBookmark, FaComment, FaEdit, FaExpand, FaExpandAlt, FaExpandArrowsAlt, FaHeart, FaLink, FaShare, FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import {updateUserData} from '../pages/features/usersSlice'
-import { deletePost, getAllPosts, updatePost } from '../pages/features/postSlice'
+import { deletePost, getAllPosts, updateLikes, updatePost } from '../pages/features/postSlice'
 import { Link } from 'react-router-dom'
 
-const Posts = ({posts, showComments = false, thePostId = null}) => {
+const Posts = ({posts, showComments = false, thePostId = null, isProfilePage = false}) => {
   
-  // console.log(showComments)
-
-  // const [isBookMark, setIsBookMark] = useState(false)
   const [editedPost, setEditedPost] = useState(null)
   const [comment, setComment] = useState('')
 
@@ -48,6 +45,7 @@ const Posts = ({posts, showComments = false, thePostId = null}) => {
       }
       dispatch(updateUserData({userId : logedInUser._id, userData : likes}))
       dispatch(updatePost({postId, updatedData : likeOfPost}))
+      dispatch(updateLikes({postId, updatedData : likeOfPost}))
     }else{
       const likes = {
         likedPosts : logedInUser.likedPosts.filter((id) => id != postId)
@@ -56,7 +54,8 @@ const Posts = ({posts, showComments = false, thePostId = null}) => {
         postLikes : currentLikes > 0 ? currentLikes - 1 : 0
       }
       dispatch(updateUserData({userId : logedInUser._id, userData : likes}))
-      dispatch(updatePost({postId, updatedData : likeOfPost}))
+      dispatch(updatePost({postId, updatedData : likeOfPost}))      
+      dispatch(updateLikes({postId, updatedData : likeOfPost}))
     }
   }
 
@@ -82,15 +81,15 @@ const Posts = ({posts, showComments = false, thePostId = null}) => {
     const updatedData = {
       postText : editedPost
     }
-    await dispatch(updatePost({postId, updatedData}))
-    await dispatch(getAllPosts())
+    dispatch(updatePost({postId, updatedData}))
+    dispatch(getAllPosts())
     setEditedPost(null)
   }
 
   const handleComment = () => {
     const theData = {...logedInUser, userComment : comment}
     const updatedData = {
-      postComments : [...post.postComments, theData]
+      postComments : [theData, ...post.postComments ]
     }
     dispatch(updatePost({postId : thePostId, updatedData})).then(() => {
       dispatch(getAllPosts())
@@ -113,21 +112,6 @@ const Posts = ({posts, showComments = false, thePostId = null}) => {
               />
           </div>
           <div className='col-md-10'>
-              {/* <div className='row d-flex justify-content-between'>
-                <div className='col-md-6'>
-                  <p >
-                    <span className='fw-normal '>{post.fullName}</span> 
-                    <span className='text-body-secondary '>@{post.userName} &#8226; </span> 
-                    
-                    {thePostId ? <Link to={'/home'}><FaExpandAlt/></Link> : <Link to={`/post/${post._id}`}><FaExpandAlt/> </Link> }
-                  </p>
-                </div>
-                
-                <div className='col-md-2'>
-                  <FaEdit />
-                  <FaTrash className=''/>
-                </div>
-              </div> */}
               <p >
                 <span className='fw-normal '>{post.fullName}</span> 
                 <span className='text-body-secondary '>@{post.userName} &#8226; </span> 
@@ -157,11 +141,14 @@ const Posts = ({posts, showComments = false, thePostId = null}) => {
                 ))}
               </div>
               <div className='d-flex justify-content-between'>
-                <FaHeart style={{cursor : 'pointer', color : isLiked(post._id) ? 'red' : 'black'}}
-                onClick={() => likeHandler(post._id)}                
-                />
-                <FaComment style={{cursor : 'pointer'}}/>
-                <FaShare style={{cursor : 'pointer'}}/>
+                <div>
+                  <FaHeart style={{cursor : 'pointer', color : isLiked(post._id) ? 'red' : 'black'}}
+                  onClick={() => likeHandler(post._id)}                
+                  /><span> {post.postLikes}</span>
+                </div>               
+                
+                {thePostId ? <Link to={'/home'}><FaComment style={{cursor : 'pointer', color : "red"}}/></Link> : <Link to={`/post/${post._id}`}><FaComment style={{cursor : 'pointer', color : "black"}}/> </Link> }
+                {/* <FaShare style={{cursor : 'pointer'}}/> */}
                 <FaBookmark  
                 style={{cursor : 'pointer', color : isBookmared(post._id) ? 'green' : 'black'}} 
                 onClick={() => bookMarkHandler(post._id)}
@@ -174,7 +161,7 @@ const Posts = ({posts, showComments = false, thePostId = null}) => {
             {post.userName === logedInUser.userName ? 
             <div className='d-flex justify-content-between'>
               <div>
-                <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" inert>
                   <div className="modal-dialog">
                     <div className="modal-content">
                       <div className="modal-header">
@@ -195,11 +182,15 @@ const Posts = ({posts, showComments = false, thePostId = null}) => {
                   </div>
                 </div>
               </div>
+              {isProfilePage || showComments ?
+                null      
+              : 
               <FaEdit
               style={{cursor : "pointer"}}
               data-bs-toggle="modal" data-bs-target="#exampleModal"
               title='Edit'
-              />
+              />               
+              }              
               <FaTrash 
               style={{cursor : "pointer"}}
               onClick={() => deleteHandler(post._id)}
@@ -207,7 +198,7 @@ const Posts = ({posts, showComments = false, thePostId = null}) => {
             </div>
             :
             null
-            }         
+            }
               
           </div>
           {showComments && 
@@ -219,7 +210,7 @@ const Posts = ({posts, showComments = false, thePostId = null}) => {
                 />
               </div>
               <div className='col-md-9'>
-                <input className='form-control' placeholder='write comment here...' onChange={(e) => setComment(e.target.value) } />
+                <input className='form-control' placeholder='write comment here...' value={comment} onChange={(e) => setComment(e.target.value) } />
               </div>
               <div className='col-md-2'>
                 <button className='btn btn-danger' onClick={handleComment}>Comment</button>
@@ -235,7 +226,7 @@ const Posts = ({posts, showComments = false, thePostId = null}) => {
                   />
                 </div>
                 <div className='col-md-11'>
-                  <p><span className='text-body-secondary'> @{cmt.userName} &#8226; </span></p>              
+                  <p><span className='text-body-secondary'> @{cmt.userName} &#8226; </span> </p>              
                   <div>
                     {cmt.userComment.split('.').map((text, index) => (
                       <p key={index}>{text}.</p>

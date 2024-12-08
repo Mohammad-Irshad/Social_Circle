@@ -9,7 +9,6 @@ function App() {
   return (
     <>
       <main>
-        {/* <h1>This is the first page of the app.</h1> */}
         <Landing/>
       </main>
     </>

@@ -3,6 +3,7 @@ const cors = require('cors')
 const {initializeDatabase} = require('./db/db')
 const Posts = require('./model/post.model')
 const Users = require('./model/user.model')
+require('dotenv').config()
 
 const app = express()
 
@@ -33,25 +34,10 @@ async function addPost(newPost){
         const Post = new Posts(newPost) 
         const savePost = await Post.save()
         return savePost
-        // console.log("Post added to the database successfully! ", savePost)
     }catch(error){
         console.log("Can't save the post in the database",error)
     }
 }
-
-// const data = {
-//     fullName : "Mohammad Irshad",
-//     userName : "mohammadirshad",
-//     postText : "This is the test content of the post",
-//     userImage : "imageurl",
-//     postImage : "None",
-//     postGif : "None",
-//     postLikes : 0,
-//     postComments : ["comment one"],
-//     postShare : 0
-// }
-
-// addPost(data)
 
 
 // api to seed data
@@ -258,14 +244,7 @@ app.post('/api/user/updateData/:userId', async (req, res) => {
     }   
 })
 
-
-
-
-
-
-
-
-const PORT = 3000
+const PORT = process.env.PORT
 
 app.listen(PORT, () => {
     console.log("App is running on ", PORT)

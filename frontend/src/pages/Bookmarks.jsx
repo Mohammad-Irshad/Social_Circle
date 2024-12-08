@@ -11,20 +11,20 @@ const Bookmarks = () => {
   const {posts} = useSelector((state) => state.posts)
 
   const userBookMarkedPosts = posts.filter((post) => logedInUser.bookmarkPosts.includes(post._id))
-  console.log(userBookMarkedPosts)
   return (
     <>
      <Header/>
      <main className='container py-4 mb-5'>
         <div className='row'>
-            <div className='col-md-2'>
+            <div className='col-md-2' style={{marginTop : '40px', position : 'fixed'}}>
               <Sidebar user={logedInUser}/>
             </div>
-            <div className='col-md-7'>
+            <div className='col-md-7' style={{marginTop : '50px', marginLeft : '16vw'}}>
                 <h3>Your Bookmarks</h3>
-                <Posts posts={userBookMarkedPosts}/>
+                {userBookMarkedPosts.length > 0 ? <Posts posts={userBookMarkedPosts}/> : <p>You did not bookmark a post yet!</p>}
+                
             </div>
-            <div className='col-md-3'>
+            <div className='col-md-3' style={{marginTop : '50px', position : 'fixed', marginLeft : '66vw'}}>
                 <SearchAndFollow users={users}/>
             </div>
         </div>

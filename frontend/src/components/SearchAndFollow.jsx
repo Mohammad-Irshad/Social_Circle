@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -6,16 +6,18 @@ import { updateUserData } from '../pages/features/usersSlice'
 
 const SearchAndFollow = ({users}) => {
 
-  const [userSearch, setUserSearch] = useState('')
   const [foundUsers, setFoundUsers] = useState([])
+  const inputRef = useRef(null)
 
   const {logedInUser} = useSelector((state) => state.users)
   const dispatch = useDispatch()
+
+  const allUsers = users.filter((user) => user._id != logedInUser._id)
   
 
   const handleFollow = (thirdPersonId) => {
 
-    const userToFollow = users.find((user) => user._id === thirdPersonId);
+    const userToFollow = allUsers.find((user) => user._id === thirdPersonId);
     const index = logedInUser.following.findIndex((id) => id === thirdPersonId);
 
     const follow = {
@@ -36,9 +38,9 @@ const SearchAndFollow = ({users}) => {
   }
 
   const handleSearch = (e) => {
-
+    let userSearch = e.target.value
     if(userSearch.trim() != ''){
-      const searchedUsers = users.filter((user) => user.fullName.toLowerCase().includes(userSearch.toLowerCase()))
+      const searchedUsers = allUsers.filter((user) => user.fullName.toLowerCase().includes(userSearch.toLowerCase()))
       setFoundUsers(searchedUsers)
     }else{
       setFoundUsers([])
@@ -47,7 +49,8 @@ const SearchAndFollow = ({users}) => {
 
   const handleShowAll = () => {
     setFoundUsers([])
-    setUserSearch('')
+    console.log(inputRef)
+    inputRef.current.value = null
   }
 
 
@@ -61,8 +64,8 @@ const SearchAndFollow = ({users}) => {
             type="text" 
             placeholder="search user" 
             className="form-control" 
-            value={userSearch}
-            onChange={(e) => setUserSearch(e.target.value)}
+            ref={inputRef}
+            onChange={(e) => handleSearch(e)}
         />                
         </div>
 
@@ -75,8 +78,8 @@ const SearchAndFollow = ({users}) => {
             <h6 className='text-danger' onClick={handleShowAll} style={{cursor : 'pointer'}}>{foundUsers.length > 0 ? 'Show All' : ''}</h6>
             </div>
             <hr/>
-            <div className='row'>
-              {(foundUsers.length > 0 ? foundUsers : users ).map((user) => (
+            <div className='row' style={{maxHeight: "400px", overflowY: "auto"}}>
+              {(foundUsers.length > 0 ? foundUsers : allUsers ).map((user) => (
                 <React.Fragment key={user._id}>                
                   <div  className='col-md-3'>
                   <img src={`${user.userImage ? user.userImage : 'https://img.freepik.com/premium-photo/lego-figure-boy-wearing-glasses-jacket-with-hood_113255-94249.jpg?size=626&ext=jpg&ga=GA1.1.975262890.1723114701&semt=ais_hybrid'}`}
@@ -90,7 +93,7 @@ const SearchAndFollow = ({users}) => {
                   </div>
                   <div className='col-md-4'>
                     <p 
-                    className='text-danger fw-bold' 
+                    className={`fw-bold ${logedInUser.following.includes(user._id) ? 'text-primary' : 'text-danger'}`} 
                     onClick={() => handleFollow(user._id)} 
                     style={{cursor : "pointer"}}>
                       {logedInUser.following.includes(user._id) ? "Unfollow" : "Follow +"}

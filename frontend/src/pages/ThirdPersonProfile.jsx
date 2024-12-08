@@ -10,18 +10,14 @@ import { updateUserData } from './features/usersSlice'
 const ThirdPersonProfile = () => {
 
     const {thirdPersonId} = useParams()
-    // console.log(thirdPersonId)
 
     const {logedInUser, users} = useSelector((state) => state.users)
     const {posts} = useSelector((state) => state.posts)
     const dispatch = useDispatch()
 
     const thirdPerson = users.find((user) => user._id === thirdPersonId)
-    // console.log(users)
-    // console.log(thirdPerson)
 
     const userPosts = posts.filter((post) => post.userName === thirdPerson.userName)
-    // console.log("Third person posts",userPosts)
 
     const handleFollow = (userId) => {
 
@@ -53,10 +49,10 @@ const ThirdPersonProfile = () => {
       <main className='container py-4 mb-5'>     
 
         <div className='row'>
-            <div className='col-md-2'>
+            <div className='col-md-2' style={{position : 'fixed', marginTop : '40px'}}>
                 <Sidebar user={logedInUser}/>
             </div>
-            <div className='col-md-7'>
+            <div className='col-md-7' style={{marginTop : '50px', marginLeft : '16vw'}}>
                 <div className='text-center'>
                     <img src={thirdPerson.userImage} alt='userImage'
                     className='img-fluid rounded-circle mb-3'
@@ -65,7 +61,7 @@ const ThirdPersonProfile = () => {
                     <h3>{thirdPerson.fullName}</h3>
                     <p>@{thirdPerson.userName}</p>
                     <button 
-                        className='btn btn-light border-dark'
+                        className={`btn ${logedInUser.following.includes(thirdPerson._id) ? 'btn-light border-dark' : 'btn-danger'}`}
                         onClick={() => handleFollow(thirdPerson._id)}>
                         {logedInUser.following.includes(thirdPerson._id) ? "Unfollow" : "Follow"}
                     </button><br/>
@@ -96,7 +92,7 @@ const ThirdPersonProfile = () => {
                 <h4 className='fw-bold mb-3'>{thirdPerson.fullName}'s Posts</h4>
                 <Posts posts={userPosts}/>
             </div>
-            <div className='col-md-3'>
+            <div className='col-md-3' style={{position : 'fixed', marginTop : '50px', marginLeft : '66vw'}}>
                 <SearchAndFollow users={users} />
             </div>
         </div>

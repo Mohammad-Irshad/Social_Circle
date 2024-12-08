@@ -56,10 +56,10 @@ const Explore = () => {
       <Header/>
       <main className='container py-4 mb-5'>
         <div className='row'>
-            <div className='col-md-2'>
+            <div className='col-md-2' style={{marginTop : '40px', position : 'fixed'}}>
               <Sidebar user={logedInUser}/>
             </div>
-            <div className='col-md-7'>
+            <div className='col-md-7' style={{marginTop : '50px', marginLeft : '16vw'}}>
                 <div className='row'>
                   <div className='col-md-8'>
                   <h3>Explore</h3>
@@ -73,18 +73,18 @@ const Explore = () => {
                   </div>  
                 </div>
                 
-                <div className='py-3 d-flex justify-content-between '>
+                <div className='py-3 d-flex justify-content-start '>
                     <button className='btn btn-light border-dark' value={"All"} onClick={(e) => handleFilter(e.target.value)}>All</button>
-                    <button className='btn btn-light border-dark' value={"Trending"} onClick={(e) => handleFilter(e.target.value)}>Trending</button>
-                    <button className='btn btn-light border-dark' value={"Technolgoy"} >Technolgoy</button>
+                    <button className='btn btn-light border-dark ms-4' value={"Trending"} onClick={(e) => handleFilter(e.target.value)}>Trending</button>
+                    {/* <button className='btn btn-light border-dark' value={"Technolgoy"} >Technolgoy</button>
                     <button className='btn btn-light border-dark' value={"Sports"} >Sports</button>
-                    <button className='btn btn-light border-dark' value={"News"} >News</button>
+                    <button className='btn btn-light border-dark' value={"News"} >News</button> */}
                 </div>
                 <div></div>
                 {status === 'idle' ? <p>Loading...</p>  : <Posts posts={sortedPosts || posts}/>}
                 
             </div>
-            <div className='col-md-3'>
+            <div className='col-md-3' style={{marginTop : '50px', position : 'fixed', marginLeft : '66vw'}}>
               <SearchAndFollow users={users} />
             </div>
         </div>

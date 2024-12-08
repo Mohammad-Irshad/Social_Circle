@@ -4,7 +4,6 @@ import axios from "axios";
 // add a post 
 export const addPost = createAsyncThunk('posts/addPost', async (newPost) => {
     const response = await axios.post('http://localhost:3000/api/user/post', newPost)
-    // console.log(response.data)
     return response.data
 })
 
@@ -12,16 +11,13 @@ export const addPost = createAsyncThunk('posts/addPost', async (newPost) => {
 
 export const getAllPosts = createAsyncThunk('posts/getAllPosts', async () => {
     const response = await axios.get('http://localhost:3000/api/posts')
-    // console.log(response.data)
     return response.data
 })
 
 // updated a post
 
 export const updatePost = createAsyncThunk('posts/updatePost', async ({postId, updatedData}) => {
-    console.log(postId, updatedData)
     const response = await axios.post(`http://localhost:3000/api/posts/edit/${postId}`, updatedData)
-    console.log("Updated post : ",response.data)
     return response.data
 })
 
@@ -29,7 +25,6 @@ export const updatePost = createAsyncThunk('posts/updatePost', async ({postId, u
 
 export const deletePost = createAsyncThunk('posts/deletePost', async (postId) => {
     const response = await axios.delete(`http://localhost:3000/api/user/posts/${postId}`)
-    // console.log(response.data)
     return response.data
 })
 
@@ -41,7 +36,10 @@ export const postSlice = createSlice({
         error : false
     },
     reducers : {
-
+        updateLikes : (state, action) => {
+            let indexOfLikedPost = state.posts.findIndex((post) => post._id === action.payload.postId)
+            state.posts[indexOfLikedPost] = {...state.posts[indexOfLikedPost], postLikes : action.payload.updatedData.postLikes}
+        }
     },
     extraReducers : (builder) => {
         builder
@@ -50,7 +48,7 @@ export const postSlice = createSlice({
         })
         .addCase(addPost.fulfilled, (state, action) => {
             state.status = 'success'
-            state.posts.push(action.payload)
+            state.posts.unshift(action.payload)
         })
         .addCase(addPost.rejected, (state, action) => {
             state.status = 'error'
@@ -95,5 +93,7 @@ export const postSlice = createSlice({
     }
 
 })
+
+export const {updateLikes} = postSlice.actions
 
 export default postSlice.reducer

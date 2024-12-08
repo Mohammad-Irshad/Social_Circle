@@ -6,8 +6,8 @@ import { addLogInUser, fetchUsers } from './features/usersSlice'
 
 const LoginPage = () => {
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('guestUser@gmail.com')
+    const [password, setPassword] = useState('123')
     const [showMessage, setShowMessage] = useState(false)
 
     const {users} = useSelector((state) => state.users)
@@ -21,16 +21,19 @@ const LoginPage = () => {
 
     const handleLogin = (e) => {
         e.preventDefault()
-        // console.log(users)
         const user = users.find((user) => (user.userEmail === email && user.userPassword === password))
-        // console.log(user)
         if(user){
             dispatch(addLogInUser(user))
             navigate('/home')
         }else{
             setShowMessage(true)
         }
+    }
 
+    const handleGuestLogin = (e) => {
+        setEmail('iron@mail.com')
+        setPassword(123)
+        handleLogin(e)
     }
 
   return (
@@ -52,6 +55,7 @@ const LoginPage = () => {
                         <label className='form-label'>Email Address</label>
                         <input 
                         type='text'
+                        required
                         className='form-control'
                         placeholder='example@gmail.com' 
                         onChange={(e) => setEmail(e.target.value)}                       
@@ -66,7 +70,7 @@ const LoginPage = () => {
                         />
                         <br/>
                         {showMessage && <p className='text-danger'>User not found signUp for login!</p>}
-                        <div className='d-flex justify-content-between'>
+                        {/* <div className='d-flex justify-content-between'>
                             <div>
                                 <input                                
                                 id='remember'
@@ -76,9 +80,16 @@ const LoginPage = () => {
                                 Remember Me
                                 </label>
                             </div>                            
-                            <a className='style-none'>
+                            <a className='style-none' style={{cursor : 'pointer'}}>
                                 Forgor your password?
                             </a>
+                        </div> */}
+                        <div className="d-grid gap-2 mt-3">
+                            <button 
+                              type='submit' 
+                              className='btn btn-primary'
+                              onClick={(e) => handleGuestLogin(e)}
+                            >Log In As Guest</button>
                         </div>
                         <div className="d-grid gap-2 mt-3">
                             <button 
@@ -86,7 +97,7 @@ const LoginPage = () => {
                               className='btn btn-danger'
                               onClick={(e) => handleLogin(e)}
                             >Log In</button>
-                          </div>
+                        </div>
                     </form>                    
                 </div>
                 <Link className='text-center pb-2' style={{"textDecoration" : "none"}} to='/signUp'>Create New Account &gt; </Link>

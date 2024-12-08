@@ -17,6 +17,7 @@ const Home = () => {
   const [media, setMedia] = useState('')
   const [fileName, setFileName] = useState('')
   const [isUploading, setIsUploading] = useState(false)
+  const [errorMessaage, setErrorMessaage] = useState(false)
 
   const dispatch = useDispatch()
   const {logedInUser, users} = useSelector((state) => state.users)
@@ -34,10 +35,13 @@ const Home = () => {
 
 
   const handlePost = () => {
-    // if (!logedInUser.fullName || !logedInUser.userName || !text || !logedInUser.userImage || !media) {
-    //   console.log("Provide all the required values to send post data.");
-    //   return;
-    // }
+    if (!logedInUser.fullName || !logedInUser.userName || !text || !logedInUser.userImage ) {
+      console.log("Provide all the required values to send post data.");
+      setErrorMessaage(true)
+      return;
+    }else{
+      setErrorMessaage(false)
+    }
 
     const newPost = {
       fullName: logedInUser.fullName,
@@ -47,8 +51,7 @@ const Home = () => {
       postMedia: media,
     };
     dispatch(addPost(newPost));
-
-    // Clear the post form
+    
     setText('');
     setMedia(null);
     setFileName(null); 
@@ -63,7 +66,7 @@ const Home = () => {
     data.append('file', files[0]);
     data.append('upload_preset', 'social_circle');
 
-    setIsUploading(true); // Start loading
+    setIsUploading(true); 
 
     try {
       let response;
@@ -84,7 +87,7 @@ const Home = () => {
     } catch (err) {
       console.log('Error uploading to Cloudinary:', err.response?.data || err.message);
     } finally {
-      setIsUploading(false); // End loading
+      setIsUploading(false); 
     }
   }
   
@@ -94,10 +97,10 @@ const Home = () => {
       <Header/>
       <main className='container py-4 mb-5'>
         <div className='row'>
-            <div className='col-md-2'>
+            <div className='col-md-2' style={{marginTop : '40px', position : 'fixed'}}>
                 <Sidebar user={logedInUser}/>
             </div>
-            <div className='col-md-7'>
+            <div className='col-md-7' style={{marginTop : '50px', marginLeft : '16vw'}}>
                 <div className='row'>
                     <div className='col-md-2'>
                       <img src={logedInUser.userImage} alt='avtImage'
@@ -140,6 +143,7 @@ const Home = () => {
                             </div>
                         </div>
                         {fileName && <span> {fileName}</span>}
+                        {errorMessaage && <p className='text-danger'>Please write something to make a post.</p>}
                     </div>
                 </div>
                 {/* Post section */}
@@ -148,7 +152,7 @@ const Home = () => {
                   {status === 'success' ? <Posts posts={posts}/> : <p>Loading...</p>}                  
                 </div>
             </div>
-            <div className='col-md-3'>
+            <div className='col-md-3' style={{marginTop : '50px', position : 'fixed', marginLeft : '66vw'}}>
               <SearchAndFollow users={users} />            
             </div>
         </div>

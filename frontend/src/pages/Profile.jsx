@@ -57,10 +57,10 @@ const Profile = () => {
       <Header/>
       <main className='container py-4 mb-5'>
         <div className='row'>
-            <div className='col-md-2'>
+            <div className='col-md-2' style={{marginTop : '40px', position : 'fixed'}}>
                 <Sidebar user={logedInUser}/>
             </div>
-            <div className='col-md-7'>               
+            <div className='col-md-7' style={{marginTop : '50px', marginLeft : '16vw'}}>               
                 
                 
                 <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -88,8 +88,8 @@ const Profile = () => {
                         <div>
                             <h6>Update Bio</h6>
                             <textarea className='form-control' placeholder='write bio...' onChange={(e) => setBio(e.target.value)}></textarea><br/>
-                            <h6>Add/Update Website</h6>
-                            <input className='form-control' placeholder='example@mail.com' onChange={(e) => setWebsite(e.target.value)}/>
+                            {/* <h6>Add/Update Website</h6>
+                            <input className='form-control' placeholder='example@mail.com' onChange={(e) => setWebsite(e.target.value)}/> */}
                         </div>
                     </div>
                     <div className="modal-footer">
@@ -109,13 +109,12 @@ const Profile = () => {
                     />
                     <h3>{logedInUser.fullName}</h3>
                     <p>@{logedInUser.userName}</p>
-                    {/* <button className='btn btn-light border-dark'>Edit Profile</button><br/> */}
-                    <button type="button" className="btn btn-light border-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" className="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Edit Profile
                     </button>
                     <br/>
                     <p className='text-center mt-3'>{logedInUser.userBio}</p>
-                    <p className='text-danger'>{logedInUser.userWebsite ? "logedInUser.userWebsite" : ''}</p>
+                    {/* <p className='text-danger'>{logedInUser.userWebsite ? "logedInUser.userWebsite" : ''}</p> */}
                     <div className='card' style={{"border" : "none"}}>
                         <div className='card-body mx-5' >
                             <div className='row'>
@@ -138,9 +137,9 @@ const Profile = () => {
                 </div>
                 {/* Post */}
                 <h4 className='fw-bold mb-3'>Your Posts</h4>
-                <Posts posts={userPosts}/>
+                <Posts posts={userPosts} isProfilePage={true}/>
             </div>
-            <div className='col-md-3'>
+            <div className='col-md-3' style={{marginTop : '50px', position : 'fixed', marginLeft : '66vw'}}>
                 <SearchAndFollow users={users} />
             </div>
         </div>
