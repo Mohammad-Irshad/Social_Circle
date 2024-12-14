@@ -81,8 +81,9 @@ const Posts = ({posts, showComments = false, thePostId = null, isProfilePage = f
     const updatedData = {
       postText : editedPost
     }
-    dispatch(updatePost({postId, updatedData}))
-    dispatch(getAllPosts())
+    dispatch(updatePost({postId, updatedData})).then(() => {
+      dispatch(getAllPosts())
+    })    
     setEditedPost(null)
   }
 
