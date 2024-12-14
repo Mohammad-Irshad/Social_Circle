@@ -172,7 +172,7 @@ const Posts = ({posts, showComments = false, thePostId = null, isProfilePage = f
                       <div className="modal-body">
                         <textarea 
                         className='form-control' 
-{/*                         value={editedPost ? editedPost : post.postText}  */}
+                        value={editedPost ? editedPost : post.postText} 
                         onChange={(e) => setEditedPost(e.target.value)}></textarea>
                       </div>
                       <div className="modal-footer">
