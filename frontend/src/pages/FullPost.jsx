@@ -29,7 +29,7 @@ const FullPost = () => {
             <div className='col-md-2' style={{marginTop : '40px', position : 'fixed'}}>
                 <Sidebar user={logedInUser} />
             </div>
-            <div className='col-md-6' style={{marginTop : '50px', position : 'fixed', marginLeft : '16vw'}}>
+            <div className='col-md-7' style={{marginTop : '50px',marginLeft : '16vw'}}>
                 <Link to={'/home'}> <FaArrowLeft/></Link><span className='fw-medium fs-4 ms-4'>Post</span><br/><br/>
                 <Posts posts={post} showComments={true} thePostId={postId} />
             </div>
