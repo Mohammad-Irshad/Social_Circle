@@ -31,9 +31,14 @@ const LoginPage = () => {
     }
 
     const handleGuestLogin = (e) => {
-        setEmail('iron@mail.com')
-        setPassword(123)
-        handleLogin(e)
+        e.preventDefault()
+        const user = users.find((user) => (user.userEmail === 'guestUser@gmail.com' && user.userPassword === "123"))
+        if(user){
+            dispatch(addLogInUser(user))
+            navigate('/home')
+        }else{
+            setShowMessage(true)
+        }
     }
 
   return (
