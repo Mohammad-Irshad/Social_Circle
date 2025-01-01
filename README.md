@@ -14,7 +14,7 @@ Database: MongoDB
 🚀 Installation and Setup
 Clone the repository:
 ```
-git clone https://github.com/Mohammad-Irshad/Social_Circle.git
+git clone https://github.com/Mohammad-Irshad/social-media-app.git
 cd Social_Circle
 ```
 Install dependencies:
