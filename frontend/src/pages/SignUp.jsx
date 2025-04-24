@@ -159,7 +159,7 @@ const SignUp = () => {
                   </div>
                 </form>
               </div>
-              <Link className='text-center pb-2' style={{ "textDecoration": "none" }} to='/logIn'>Already have an Account &gt; </Link>
+              <Link className='text-center pb-2' style={{ "textDecoration": "none" }} to='/logIn'>Alredy have an Account &gt; </Link>
             </div>
           </div>
         </div>
