@@ -129,6 +129,8 @@ const Posts = ({
   const isLiked = (postId) => logedInUser.likedPosts.includes(postId);
   const isBookmared = (postId) => logedInUser.bookmarkPosts.includes(postId);
 
+  console.log("The posts : ", posts)
+
   return (
     <div>
       <div className="row">
@@ -198,6 +200,7 @@ const Posts = ({
                     onClick={() => likeHandler(post._id)}
                   />
                   <span> {post.postLikes}</span>
+
                 </div>
 
                 {thePostId ? (
@@ -205,9 +208,12 @@ const Posts = ({
                     <FaComment style={{ cursor: "pointer", color: "red" }} />
                   </Link>
                 ) : (
-                  <Link to={`/post/${post._id}`}>
-                    <FaComment style={{ cursor: "pointer", color: "black" }} />{" "}
-                  </Link>
+                  <div>
+                    <Link to={`/post/${post._id}`}>
+                      <FaComment style={{ cursor: "pointer", color: "black" }} />{" "}
+                    </Link>
+                    <span> {post.postComments.length > 0 ? post.postComments.length : null}</span>
+                  </div>
                 )}
                 {/* <FaShare style={{cursor : 'pointer'}}/> */}
                 <FaBookmark
