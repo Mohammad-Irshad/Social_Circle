@@ -205,12 +205,11 @@ const Posts = ({
                     <FaComment style={{ cursor: "pointer", color: "red" }} />
                   </Link>
                 ) : (
-                  <div>
+                  
                     <Link to={`/post/${post._id}`}>
                       <FaComment style={{ cursor: "pointer", color: "black" }} />{" "}
                     </Link>
-                    <span>{post.postComments}</span>
-                  </div>
+                  
                 )}
                 {/* <FaShare style={{cursor : 'pointer'}}/> */}
                 <FaBookmark
