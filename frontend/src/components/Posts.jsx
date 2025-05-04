@@ -209,7 +209,7 @@ const Posts = ({
                   </Link>
                 ) : (
                   <div>
-                    <Link to={`/post/${post._id}`}>
+                    <Link to={`/post/${post._id}`} style={{ textDecoration: "none", color: "inherit" }}>
                       <FaComment style={{ cursor: "pointer", color: "black" }} />{" "}
                     </Link>
                     <span> {post.postComments.length}</span>
