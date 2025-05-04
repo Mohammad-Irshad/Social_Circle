@@ -139,7 +139,7 @@ const Profile = () => {
                         <h4 className='fw-bold mb-3'>Your Posts</h4>
                         <Posts posts={userPosts} />
                     </div>
-                    <div className='col-md-3' style={{ marginTop: '50px', position: 'fixed', marginLeft: '66vw' }}>
+                    <div className='col-md-3' style={{ marginTop: '50px', position: 'fixed', right: '0' }}>
                         <SearchAndFollow users={users} />
                     </div>
                 </div>
