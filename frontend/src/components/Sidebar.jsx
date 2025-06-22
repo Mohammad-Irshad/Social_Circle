@@ -1,8 +1,16 @@
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { FaHome, FaCompass, FaBookmark, FaUser } from 'react-icons/fa';
 
+
+
+
 const Sidebar = ({ user }) => {
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    navigate('/')
+  }
   // console.log(user)
   return (
     <>
@@ -54,6 +62,9 @@ const Sidebar = ({ user }) => {
             </div>
             {/* <div className='col-md-2'>...</div> */}
           </div>
+        </div>
+        <div className='mt-4'>
+          <button className='btn btn-sm btn-danger' onClick={handleLogout}>Logout</button>
         </div>
       </main>
     </>
